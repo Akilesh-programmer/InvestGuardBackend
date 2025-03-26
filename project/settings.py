@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%76rpbg_-)bjdphc1mtd@6ey=rove57)qfc40tmd*%g=b9wn*f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'investguardbackend.onrender.com']
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'app'
+    'app',
 ]
 
 MIDDLEWARE = [
