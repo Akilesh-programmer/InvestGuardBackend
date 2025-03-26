@@ -30,7 +30,10 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'investguardbackend.onrender.com', "h
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]  # Allow all headers
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Your React/Vite frontend
+    "https://your-frontend-domain.com",  # Deployed frontend (if any)
+]
 
 # Application definition
 
