@@ -34,6 +34,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Your React/Vite frontend
     "https://your-frontend-domain.com",  # Deployed frontend (if any)
     "https://invest-guard-frontend.vercel.app",
+    "http://localhost:5173",
 ]
 
 # Application definition
