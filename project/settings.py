@@ -33,6 +33,7 @@ CORS_ALLOW_HEADERS = ["*"]  # Allow all headers
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Your React/Vite frontend
     "https://your-frontend-domain.com",  # Deployed frontend (if any)
+    "https://invest-guard-frontend.vercel.app",
 ]
 
 # Application definition
