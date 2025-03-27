@@ -25,12 +25,23 @@ SECRET_KEY = 'django-insecure-%76rpbg_-)bjdphc1mtd@6ey=rove57)qfc40tmd*%g=b9wn*f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'investguardbackend.onrender.com', "http://localhost:5173",]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]  # Allow all headers
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Your React/Vite frontend
+    "https://your-frontend-domain.com",  # Deployed frontend (if any)
+    "https://invest-guard-frontend.vercel.app",
+    "http://localhost:5173",
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,10 +50,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'app'
+    'app',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
