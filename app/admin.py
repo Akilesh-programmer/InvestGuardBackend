@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import InvestModel, Stock , NewsHeadLines , UserCompany, ResponseModel
+from .models import InvestModel, Stock , NewsHeadLines , UserCompany, ResponseModel, UserModel
 
 # Register your models here.
 admin.site.register(NewsHeadLines)
 admin.site.register(UserCompany)
+admin.site.register(UserModel)
 # admin.site.register(ResponseModel)
 class ResponseModelAdmin(admin.ModelAdmin):
     list_display = ('user','short_response')

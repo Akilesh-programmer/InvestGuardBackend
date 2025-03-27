@@ -1,1 +1,22 @@
-.qodo
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# SQLite database file
+db.sqlite3
+
+# Environment variables
+.env
+
+# Django migrations
+*/migrations/__pycache__/
+*.sqlite3
+
+# VSCode settings
+.vscode/
+
+# Mac OS metadata
+.DS_Store
+
+# Logs
+*.log

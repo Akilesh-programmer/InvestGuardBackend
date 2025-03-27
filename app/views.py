@@ -3,11 +3,12 @@ from django.http import HttpResponse
 from .models import UserModel , Stock , InvestModel , UserCompany
 from .serializer import UserSerializer, LoginSerializer , StockSerializer , InvestModelSerializer , ListUserSerializer
 from rest_framework import generics, status
-from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny
+from django.contrib.auth.models import User , Permission
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from django.contrib.contenttypes.models import ContentType
 
 # Create your views here.
 def hello(request):
@@ -16,6 +17,15 @@ def hello(request):
 class Register(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+        models = [Stock,InvestModel]
+        for model in models:
+            content_type = ContentType.objects.get_for_model(model)
+            permissions = Permission.objects.filter(content_type=content_type)
+            user.user_permissions.add(*permissions)
+        user.save()
 #Login
 class Login(generics.GenericAPIView):
     serializer_class = LoginSerializer
@@ -32,12 +42,24 @@ class Login(generics.GenericAPIView):
         return Response({"error": "Invalid credentials"},status = status.HTTP_401_UNAUTHORIZED)
     
 class StockViewSet(generics.ListCreateAPIView):
-    queryset = Stock.objects.all()
+    # queryset = Stock.objects.all()
     serializer_class = StockSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Stock.objects.filter(investmodel__user = self.request.user)
 
 class InvestModelCreateView(generics.ListCreateAPIView):
-    queryset = InvestModel.objects.all()
+    # queryset = InvestModel.objects.all()
     serializer_class = InvestModelSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return InvestModel.objects.filter(user = self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class SeeUsersView(generics.ListAPIView):
     queryset = User.objects.all()

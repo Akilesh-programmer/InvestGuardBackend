@@ -34,6 +34,7 @@ class StockSerializer(serializers.ModelSerializer):
 
 class InvestModelSerializer(serializers.ModelSerializer):
     total_price =  serializers.ReadOnlyField()
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = InvestModel
         fields = '__all__'

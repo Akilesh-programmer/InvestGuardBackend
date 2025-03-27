@@ -7,6 +7,9 @@ class UserModel(models.Model):
     email = models.EmailField(null=False,blank=False)
     password = models.TextField(null=False, blank=False)
 
+    def __str__(self):
+        return self.username
+
 class Stock(models.Model):
     symbol = models.CharField(max_length=10,unique=True)
     name = models.CharField(max_length=255)
