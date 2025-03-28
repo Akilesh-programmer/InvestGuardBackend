@@ -33,3 +33,5 @@ whitenoise
 psycopg2-binary
 djangorestframework>=3.14.0
 django-cors-headers
+celery
+django-celery-beat
