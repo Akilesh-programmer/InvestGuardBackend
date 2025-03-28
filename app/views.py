@@ -42,12 +42,12 @@ class Login(generics.GenericAPIView):
         return Response({"error": "Invalid credentials"},status = status.HTTP_401_UNAUTHORIZED)
     
 class StockViewSet(generics.ListCreateAPIView):
-    # queryset = Stock.objects.all()
+    queryset = Stock.objects.all()
     serializer_class = StockSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return Stock.objects.filter(investmodel__user = self.request.user)
+    # def get_queryset(self):
+    #     return Stock.objects.filter(investmodel__user = self.request.user)
 
 class InvestModelCreateView(generics.ListCreateAPIView):
     # queryset = InvestModel.objects.all()
