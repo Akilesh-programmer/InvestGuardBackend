@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import UserModel , Stock , InvestModel , UserCompany, NewsHeadLines
-from .serializer import UserSerializer, LoginSerializer , StockSerializer , InvestModelSerializer , ListUserSerializer , NewsSerializer
+from .models import UserModel , Stock , InvestModel , UserCompany, NewsHeadLines, ResponseModel
+from .serializer import UserSerializer, LoginSerializer , StockSerializer , InvestModelSerializer , ListUserSerializer , NewsSerializer, ResponseSerializer
 from rest_framework import generics, status
 from django.contrib.auth.models import User , Permission
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -80,6 +80,11 @@ class DeleteInvestmentView(generics.DestroyAPIView):
 class seeNews(generics.ListAPIView):
     queryset = NewsHeadLines.objects.all()
     serializer_class = NewsSerializer
+
+
+class seeResponse(generics.ListAPIView):
+    queryset = ResponseModel.objects.all()
+    serializer_class = ResponseSerializer
     
 
 

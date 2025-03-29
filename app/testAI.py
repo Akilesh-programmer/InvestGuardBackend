@@ -17,15 +17,22 @@ client = genai.Client(api_key = API_KEY)
 import time
 User = get_user_model()
 users = User.objects.all()
+print(f"Total Users: {users.count()}")
 def extract_sentiment(text):
      match = re.search(r"\b(Positive|Negative|Neutral|Mixed)\b",text,re.IGNORECASE)
      if match:
           return match.group(1).capitalize()
      return "Unknown"
+
+
 for user in users:
+    print("Starting sentiment analysis script...")
+    print(f"\n Checking user: {user.username}")
     user_news = UserCompany.objects.filter(user=user)
+    print(f"News items found: {user_news.count()}")
     news_list = [title.companies_news for title in user_news]
     if not news_list:
+         print("No news to analyze for this user!")
          continue
     prompt ="Analyze the sentiment (positive, negative, or neutral) for each of the following statements:\n\n"
     for id,statement in enumerate(news_list,1):
