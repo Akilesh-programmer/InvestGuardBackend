@@ -51,3 +51,7 @@ class ResponseModel(models.Model):
 
     def __str__(self):
         return f"{self.user} -- {self.response_Text}"
+    
+
+class ScrapingStatus(models.Model):
+    last_scraped_at = models.DateTimeField(null=True, blank=True)

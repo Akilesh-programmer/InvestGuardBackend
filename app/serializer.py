@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Stock , InvestModel
+from .models import Stock , InvestModel , NewsHeadLines
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,4 +37,10 @@ class InvestModelSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = InvestModel
+        fields = '__all__'
+
+
+class NewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewsHeadLines
         fields = '__all__'
