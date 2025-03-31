@@ -160,7 +160,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:fintech27@34.44.
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=False)
+    'default': dj_database_url.parse(DATABASE_URL)
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
