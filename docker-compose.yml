@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:15
     environment:
-      POSTGRES_DB: fintech_db
-      POSTGRES_USER: fintech_user
-      POSTGRES_PASSWORD: fintech_pass
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fintech27
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -25,10 +25,10 @@ services:
       - DEBUG=1
       - SECRET_KEY=your_secret_key
       - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - DB_NAME=fintech_db
-      - DB_USER=fintech_user
-      - DB_PASSWORD=fintech_pass
-      - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=fintech27
+      - DB_HOST=34.44.83.120
       - DB_PORT=5432
 
 volumes:

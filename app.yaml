@@ -1,0 +1,20 @@
+runtime: python311
+entrypoint: gunicorn -b :$PORT project.wsgi:application
+
+instance_class: F2
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 1
+  max_instances: 5
+
+env_variables:
+  SECRET_KEY: "django-insecure-%76rpbg_-)bjdphc1mtd@6ey=rove57)qfc40tmd*%g=b9wn*f"
+  DEBUG: "False"
+  DATABASE_URL: "postgresql://postgres:fintech27@34.44.83.120/fintech_db"
+
+# handlers:
+#   - url: /static
+#     static_dir: static/
+
+#   - url: /.*
+#     script: auto

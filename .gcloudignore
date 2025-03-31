@@ -1,0 +1,25 @@
+.gcloudignore
+.git
+.gitignore
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment
+venv/
+
+# Ignore Django static and media files (use Google Cloud Storage instead)
+static/
+media/
+
+# Ignore logs, local database, and IDE files
+*.log
+*.sqlite3
+.vscode/
+.idea/
+
+# Ignore frontend dependencies (if applicable)
+node_modules/

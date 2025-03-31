@@ -12,12 +12,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+from google.cloud import storage
 import os
 
-
 from dotenv import load_dotenv
-load_dotenv()
-
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,20 +31,70 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG","FALSE")
+DEBUG = os.getenv("DEBUG", "False").lower() in ["true", "1"]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'investguardbackend.onrender.com', "http://localhost:5173",]
+
+# ALLOWED_HOSTS = [
+#     "investguard-backend-264565951246.us-central1.run.app",
+#     "investgaurd-web-264565951246.us-central1.run.app",
+#     "localhost",
+#     "127.0.0.1",
+#     "0.0.0.0",
+#     "https://investgaurd-backend-264565951246.us-central1.run.app"
+# ]
+GS_BUCKET_NAME = "invest-bucket"
+STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+GS_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/"
+ALLOWED_HOSTS = ['*']
+
+# ALLOWED_HOSTS = [
+#     "localhost",
+#     "127.0.0.1",
+#     "investguard-backend-264565951246.us-central1.run.app",
+#     "investgaurd-web-264565951246.us-central1.run.app",
+# ]
+# ALLOWED_HOSTS = [
+#     "investguard-backend-264565951246.us-central1.run.app",
+#     "investgaurd-web-264565951246.us-central1.run.app",
+#     "invest-gaurd-264565951246.us-central1.run.app",
+#     "localhost",
+#     "127.0.0.1",
+# ]
+
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'investguardbackend.onrender.com','investgaurd-web-264565951246.us-central1.run.app']
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]  # Allow all headers
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Your React/Vite frontend
-    "https://your-frontend-domain.com",  # Deployed frontend (if any)
-    "https://invest-guard-frontend.vercel.app",
-    "http://localhost:5173",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",  # Your React/Vite frontend
+#     "https://your-frontend-domain.com",  # Deployed frontend (if any)
+#     "https://invest-guard-frontend.vercel.app",
+#     "http://localhost:5173",
+#     "https://investgaurd-web-264565951246.us-central1.run.app"
+# ]
 
+# SECURE_SSL_REDIRECT = False
+
+CORS_ALLOWED_ORIGINS = [
+    "https://investgaurd-web-264565951246.us-central1.run.app",
+    "https://invest-guard-frontend.vercel.app",
+    "http://localhost:8000",
+    "http://0.0.0.0:8000",
+]
+CORS_EXPOSE_HEADERS = ["X-CSRFToken"]
+
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+
+# SECURE_HSTS_SECONDS = 31536000  # 1 year
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
 
 # Application definition
 
@@ -73,6 +124,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'project.urls'
 
+# CSRF_TRUSTED_ORIGINS = [
+#     "*"
+# ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://investguard-backend-264565951246.us-central1.run.app",
+    "https://investgaurd-web-264565951246.us-central1.run.app",
+    "http://localhost:8000",
+    "http://0.0.0.0:8000",
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -92,7 +153,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:fintech27@34.44.83.120/fintech_db")
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -141,7 +203,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -151,3 +213,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://investgaurd-web-264565951246.us-central1.run.app",
+    "https://investguard-backend-264565951246.us-central1.run.app"
+]
+
+if DEBUG:
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    CSRF_TRUSTED_ORIGINS += [
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "https://investguard-backend-264565951246.us-central1.run.app",
+         "https://investgaurd-web-264565951246.us-central1.run.app"
+    ]
+
+else:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SAMESITE = 'None'
+

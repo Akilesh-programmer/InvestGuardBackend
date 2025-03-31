@@ -1,14 +1,23 @@
-# Dockerfile
 FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
+# Copy project files
 COPY . .
 
-CMD gunicorn project.wsgi:application --bind 0.0.0.0:$PORT
+# (Optional safety) Ensure dotenv is installed
+RUN pip install python-dotenv
+
+# Ensure .env is explicitly available (optional if COPY . already includes it)
+COPY .env /app/.env
+
+EXPOSE 8000
+
+CMD ["sh", "-c", "gunicorn project.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers=1 --threads=2 --timeout=120"]
