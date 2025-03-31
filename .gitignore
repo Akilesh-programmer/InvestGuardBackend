@@ -21,3 +21,6 @@ db.sqlite3
 
 # Logs
 *.log
+.dockerignore
+Dockerfile
+docker-compose.yml
