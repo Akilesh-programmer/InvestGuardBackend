@@ -79,10 +79,12 @@ CORS_ALLOW_HEADERS = ["*"]  # Allow all headers
 # SECURE_SSL_REDIRECT = False
 
 CORS_ALLOWED_ORIGINS = [
-    "https://investgaurd-web-264565951246.us-central1.run.app",
+    "https://investguard-web-264565951246.us-central1.run.app",
+    "https://investgaurd-backend-264565951246.us-central1.run.app"
     "https://invest-guard-frontend.vercel.app",
     "http://localhost:8000",
     "http://0.0.0.0:8000",
+    "https://invest-gaurd.onrender.com"
 ]
 CORS_EXPOSE_HEADERS = ["X-CSRFToken"]
 
@@ -112,10 +114,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -128,10 +130,11 @@ ROOT_URLCONF = 'project.urls'
 #     "*"
 # ]
 CSRF_TRUSTED_ORIGINS = [
-    "https://investguard-backend-264565951246.us-central1.run.app",
-    "https://investgaurd-web-264565951246.us-central1.run.app",
+    "https://investgaurd-backend-264565951246.us-central1.run.app",
+    "https://investguard-web-264565951246.us-central1.run.app",
     "http://localhost:8000",
     "http://0.0.0.0:8000",
+    "http://127.0.0.1:8000"
 ]
 
 TEMPLATES = [
@@ -214,10 +217,10 @@ CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://investgaurd-web-264565951246.us-central1.run.app",
-    "https://investguard-backend-264565951246.us-central1.run.app"
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     "https://investgaurd-web-264565951246.us-central1.run.app",
+#     "https://investguard-backend-264565951246.us-central1.run.app"
+# ]
 
 if DEBUG:
     CSRF_COOKIE_SECURE = False
@@ -227,8 +230,8 @@ if DEBUG:
     CSRF_TRUSTED_ORIGINS += [
         "http://localhost:8000",
         "http://127.0.0.1:8000",
-        "https://investguard-backend-264565951246.us-central1.run.app",
-         "https://investgaurd-web-264565951246.us-central1.run.app"
+        # "https://investguard-backend-264565951246.us-central1.run.app",
+        #  "https://investgaurd-web-264565951246.us-central1.run.app"
     ]
 
 else:
@@ -236,4 +239,7 @@ else:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SAMESITE = 'None'
     SESSION_COOKIE_SAMESITE = 'None'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
