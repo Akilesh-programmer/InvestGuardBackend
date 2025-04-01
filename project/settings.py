@@ -14,6 +14,7 @@ from pathlib import Path
 import dj_database_url
 from google.cloud import storage
 import os
+from google.oauth2 import service_account
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -31,7 +32,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False").lower() in ["true", "1"]
+# DEBUG = os.getenv("DEBUG", "False").lower() in ["true", "1"]
+DEBUG = True
 
 
 # ALLOWED_HOSTS = [
@@ -43,10 +45,23 @@ DEBUG = os.getenv("DEBUG", "False").lower() in ["true", "1"]
 #     "https://investgaurd-backend-264565951246.us-central1.run.app"
 # ]
 GS_BUCKET_NAME = "invest-bucket"
-STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-GS_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/"
+# STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+# DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+GOOGLE_CREDENTIALS_PATH = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if GOOGLE_CREDENTIALS_PATH and os.path.exists(GOOGLE_CREDENTIALS_PATH):
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GOOGLE_CREDENTIALS_PATH)
+else:
+    GS_CREDENTIALS = None
+# GS_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+# STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/"
+if not DEBUG:
+    STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/"
+else:
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+    STATIC_URL = "/static/"
 ALLOWED_HOSTS = ['*']
 
 # ALLOWED_HOSTS = [
@@ -80,7 +95,7 @@ CORS_ALLOW_HEADERS = ["*"]  # Allow all headers
 
 CORS_ALLOWED_ORIGINS = [
     "https://investguard-web-264565951246.us-central1.run.app",
-    "https://investgaurd-backend-264565951246.us-central1.run.app"
+    "https://investgaurd-backend-264565951246.us-central1.run.app",
     "https://invest-guard-frontend.vercel.app",
     "http://localhost:8000",
     "http://0.0.0.0:8000",
@@ -111,6 +126,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'app',
+    
 ]
 
 MIDDLEWARE = [
