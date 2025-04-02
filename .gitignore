@@ -11,7 +11,7 @@ db.sqlite3
 
 # Django migrations
 */migrations/__pycache__/
-*.sqlite3
+# *.sqlite3
 
 # VSCode settings
 .vscode/
