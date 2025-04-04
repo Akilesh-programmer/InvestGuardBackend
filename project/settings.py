@@ -150,7 +150,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://investguard-web-264565951246.us-central1.run.app",
     "http://localhost:8000",
     "http://0.0.0.0:8000",
-    "http://127.0.0.1:8000"
+    "http://127.0.0.1:8000",
+    "https://invest-guard-frontend.vercel.app",
 ]
 
 TEMPLATES = [
